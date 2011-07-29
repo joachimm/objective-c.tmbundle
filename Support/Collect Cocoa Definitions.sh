@@ -15,3 +15,9 @@ find /System/Library/Frameworks/{AppKit,Foundation}.framework -name \*.h -exec a
 
 # Cocoa Notifications
 find /System/Library/Frameworks/{AppKit,Foundation}.framework -name \*.h -exec grep '\*NS.*Notification' '{}' \;|perl -pe 's/.*?(NS[A-Za-z]+Notification).*/$1/'|sort|uniq|./list_to_regexp.rb >/tmp/notifications.txt
+
+# Cocoa Macro Functions
+find /System/Library/Frameworks/{AppKit,Foundation}.framework -name \*.h -exec grep '^#define *NS[A-Z][A-Za-z0-9]* *(' '{}' \;|perl -pe 's/.*?(NS[A-Za-z0-9]+).*/$1/'|sort|uniq|./list_to_regexp.rb >/tmp/macro_functions.txt
+
+# Cocoa Macro Functions
+find /System/Library/Frameworks/{AppKit,Foundation}.framework -name \*.h -exec grep '^#define *NS[A-Z][A-Za-z0-9]* *[a-zA-Z0-9]' '{}' \;|perl -pe 's/.*?(NS[A-Za-z0-9]+).*/$1/'|sort|uniq|./list_to_regexp.rb >/tmp/macro_constans.txt
