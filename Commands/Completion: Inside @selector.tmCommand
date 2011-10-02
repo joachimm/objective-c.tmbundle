@@ -10,12 +10,7 @@
 	<string>#!/usr/bin/env ruby
 require ENV['TM_SUPPORT_PATH'] + "/lib/exit_codes"
 require "#{ENV['TM_SUPPORT_PATH']}/lib/escape"
-
-if ENV['DIALOG'] =~ /2$/
-  require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_selector_completion2"
-else
-  require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_selector_completion"
-end
+require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_selector_completion2"
 
 def stripComments(line)
   line.gsub(/((['"])(?:\\.|.)*?\2)|\/\*.*?\*\/|\/\/[^\n\r]*/m) do |s| 
@@ -42,9 +37,10 @@ line = STDIN.read
 caret_placement = caret_position(line)
 
 res = ObjcSelectorCompletion.new(stripComments(line) , caret_placement).print
-print res</string>
+print res
+</string>
 	<key>disableOutputAutoIndent</key>
-	<true/>
+	<string>true</string>
 	<key>fallbackInput</key>
 	<string>scope</string>
 	<key>input</key>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -10,11 +10,8 @@
 	<string>#!/usr/bin/env ruby
 require ENV['TM_SUPPORT_PATH'] + "/lib/exit_codes"
 require "#{ENV['TM_SUPPORT_PATH']}/lib/escape"
-if ENV['DIALOG'] =~ /2$/
-  require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_completion2"
-else
-  require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_completion"
-end
+require "#{ENV['TM_BUNDLE_SUPPORT']}/objc_completion2"
+
 
 def stripComments(line)
   line.gsub(/((['"])(?:\\.|.)*?\2)|\/\*.*?\*\/|\/\/[^\n\r]*/m) do |s| 
@@ -48,7 +45,8 @@ line = ENV['TM_CURRENT_LINE']
 caret_placement = caret_position(line)
 res = ObjCFallbackCompletion.new(stripComments(line) , caret_placement).print
   os = 0
-print res</string>
+print res
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
