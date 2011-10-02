@@ -691,21 +691,21 @@ class ObjCMethodCompletion
   def file_names(types)
     if types == :classes
       userClasses = "#{ENV['TM_PROJECT_DIRECTORY']}/.classes.TM_Completions.txt.gz"
-      fileNames = ["#{ENV['TM_BUNDLE_SUPPORT']}/CocoaClassesWithAncestry.txt.gz"]
+      fileNames = ["#{ENV['TM_BUNDLE_SUPPORT']}/completion/cocoa.classes.txt.gz"]
       fileNames += [userClasses] if File.exists? userClasses
     elsif types == :functions
-      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/CocoaFunctions.txt.gz"
+      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/completion/cocoa.functions.txt.gz"
     elsif types == :methods
       fileNames = ["#{ENV['TM_BUNDLE_SUPPORT']}/cocoa.txt.gz"]
       userMethods = "#{ENV['TM_PROJECT_DIRECTORY']}/.methods.TM_Completions.txt.gz"
 
       fileNames += [userMethods] if File.exists? userMethods
     elsif types == :constants
-      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/CocoaConstants.txt.gz"
+      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/completion/cocoa.constants.txt.gz"
     elsif types == :anonymous
-      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/CocoaAnonymousEnums.txt.gz"
+      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/completion/CocoaEnums.cocoa.constants.txt.gz"
     elsif types == :annotated
-      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/CocoaAnnotatedStrings.txt.gz"
+      fileNames = "#{ENV['TM_BUNDLE_SUPPORT']}/completion/CocoaStrings.cocoa.constants.annotated.txt.gz"
     end
     return fileNames
   end
@@ -877,7 +877,7 @@ class ObjCMethodCompletion
   end
 
   def list_from_shell_command(className, type)
-    framework = %x{ zgrep ^#{e_sh className + "[[:space:]]" } #{e_sh ENV['TM_BUNDLE_SUPPORT']}/CocoaClassesWithAncestry.txt.gz }.split("\n")
+    framework = %x{ zgrep ^#{e_sh className + "[[:space:]]" } #{e_sh ENV['TM_BUNDLE_SUPPORT']}/completion/cocoa.classes.txt.gz }.split("\n")
     list = framework[0].split("\t")[1].split(":").to_set unless framework.empty?
 
     return list
