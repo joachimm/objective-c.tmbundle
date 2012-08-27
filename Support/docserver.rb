@@ -92,7 +92,6 @@ class Simple < WEBrick::HTTPServlet::AbstractServlet
     begin
       url, anchor, os = run_command(symbol)
       return nil if url.nil?
-      
       str = open(url, "r").read
     
       searchTerm = "<a name=\"#{anchor}\""
@@ -102,6 +101,8 @@ class Simple < WEBrick::HTTPServlet::AbstractServlet
       # endIndex = str.index("<a name=\"//apple_ref/occ/", startIndex + searchTerm.length)
       #endIndex = find_end_tag(tag ,str, startIndex, count)
       if os == :snowleopard
+        endIndex = find_declared_in(str, startIndex)
+      elsif os == :mountainlion
         endIndex = find_declared_in(str, startIndex)
       elsif os == :leopard
         endIndex = find_end_tag("div",str, startIndex, 0)
@@ -117,8 +118,11 @@ class Simple < WEBrick::HTTPServlet::AbstractServlet
    end
    
    def run_command(symbol)
-     docset_cmd = "/Developer/usr/bin/docsetutil search -skip-text -query "
+     docset_path = "/Developer/usr/bin/docsetutil"
+     docset_path = "/Applications/Xcode.app/Contents/#{docset_path}" if !FileTest.exist?(docset_path)
+     docset_cmd = "#{docset_path} search -skip-text -query "
      sets =  [
+       ["#{ENV['HOME']}/Library/Developer/Shared/Documentation/DocSets/com.apple.adc.documentation.AppleOSX10_8.CoreReference.docset", :mountainlion],
        ["/Developer/Documentation/DocSets/com.apple.adc.documentation.AppleSnowLeopard.CoreReference.docset",:snowleopard],
        ["/Developer/Documentation/DocSets/com.apple.ADC_Reference_Library.CoreReference.docset", :leopard],
      ]
